@@ -25,7 +25,7 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public Admin getAdminById(int id) {
+    public Admin getAdminById(Long id) {
         Optional<Admin> optionalAdmin = adminRepository.findById(id);
         return optionalAdmin.orElse(null);
     }
@@ -36,7 +36,7 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public Admin updateAdmin(int id, Admin admin) {
+    public Admin updateAdmin(Long id, Admin admin) {
         Admin existingAdmin = getAdminById(id);
         if (existingAdmin != null) {
             existingAdmin.setFirstName(admin.getFirstName());
@@ -52,7 +52,7 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public void deleteAdmin(int id) {
+    public void deleteAdmin(Long id) {
         adminRepository.deleteById(id);
     }
 }

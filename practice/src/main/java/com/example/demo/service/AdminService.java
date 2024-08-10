@@ -6,8 +6,8 @@ import com.example.demo.entity.Admin;
 
 public interface AdminService {
     List<Admin> getAllAdmins();
-    Admin getAdminById(int id);
+    Admin getAdminById(Long id);
     Admin createAdmin(Admin admin);
-    Admin updateAdmin(int id, Admin admin);
-    void deleteAdmin(int id);
+    Admin updateAdmin(Long id, Admin admin);
+    void deleteAdmin(Long id);
 }

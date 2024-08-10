@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>管理者一覧</title>
+    <link rel="stylesheet" href="/css/styles.css"> <!-- 必要に応じてCSSファイルを追加 -->
+</head>
+<body>
+    <header>
+        <h1>管理者一覧</h1>
+        <nav>
+            <a href="/admin/dashboard">戻る</a> <!-- 管理者トップ画面へのリンク -->
+        </nav>
+    </header>
+    <main>
+        <!-- 管理者リストのテーブル -->
+        <table>
+            <thead>
+                <tr>
+                    <th>管理者名</th>
+                    <th>役職</th>
+                    <th>権限</th>
+                    <th>詳細</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="admin : ${admins}">
+                    <td th:text="${admin.lastName} + ' ' + ${admin.firstName}"></td>
+                    <td th:text="${admin.position.positionName}"></td> <!-- 役職名の表示 -->
+                    <td th:text="${admin.permission.permissionName}"></td> <!-- 権限名の表示 -->
+                    <td>
+                        <form th:action="@{/admin/admin-details}" method="get">
+                            <input type="hidden" name="adminId" th:value="${admin.id}"/>
+                            <button type="submit">詳細</button>
+                        </form>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <div>
+            <form th:action="@{/admin/admin-register}" method="get">
+                <button type="submit">新規登録</button>
+            </form>
+        </div>
+    </main>
+</body>
+</html>
