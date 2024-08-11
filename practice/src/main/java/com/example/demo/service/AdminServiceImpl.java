@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.example.demo.entity.Admin;
@@ -13,10 +14,12 @@ import com.example.demo.repository.AdminRepository;
 public class AdminServiceImpl implements AdminService {
 
     private final AdminRepository adminRepository;
+    private final BCryptPasswordEncoder passwordEncoder;
 
     @Autowired
-    public AdminServiceImpl(AdminRepository adminRepository) {
+    public AdminServiceImpl(AdminRepository adminRepository, BCryptPasswordEncoder passwordEncoder) {
         this.adminRepository = adminRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Override
@@ -32,6 +35,7 @@ public class AdminServiceImpl implements AdminService {
 
     @Override
     public Admin createAdmin(Admin admin) {
+        admin.setPassword(passwordEncoder.encode(admin.getPassword()));
         return adminRepository.save(admin);
     }
 
@@ -43,9 +47,13 @@ public class AdminServiceImpl implements AdminService {
             existingAdmin.setLastName(admin.getLastName());
             existingAdmin.setEmail(admin.getEmail());
             existingAdmin.setPhone(admin.getPhone());
-            existingAdmin.setPosition(admin.getPosition()); // Positionオブジェクトを設定
-            existingAdmin.setPermission(admin.getPermission()); // Permissionオブジェクトを設定
-            existingAdmin.setPassword(admin.getPassword());
+            existingAdmin.setPosition(admin.getPosition());
+            existingAdmin.setPermission(admin.getPermission());
+
+            if (!admin.getPassword().equals(existingAdmin.getPassword())) {
+                existingAdmin.setPassword(passwordEncoder.encode(admin.getPassword()));
+            }
+
             return adminRepository.save(existingAdmin);
         }
         return null;
