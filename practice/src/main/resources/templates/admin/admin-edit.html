@@ -12,6 +12,7 @@
     </header>
     <main>
         <form action="/admin/update" method="post">
+            <input type="hidden" name="adminId" th:value="${admin.id}">
             <div>
                 <label>姓: </label>
                 <input type="text" name="lastName" th:value="${admin.lastName}">
@@ -48,7 +49,7 @@
             </div>
             <div>
                 <button type="submit">更新</button>
-                <button type="button" th:onclick="'location.href=\'/admin/admin-details?adminId=' + ${admin.id} + '\''">戻る</button>
+                <!-- 戻るボタンは削除 -->
             </div>
         </form>
     </main>

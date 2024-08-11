@@ -43,8 +43,8 @@ public class AdminServiceImpl implements AdminService {
             existingAdmin.setLastName(admin.getLastName());
             existingAdmin.setEmail(admin.getEmail());
             existingAdmin.setPhone(admin.getPhone());
-            existingAdmin.setPositionId(admin.getPositionId());
-            existingAdmin.setPermissionId(admin.getPermissionId());
+            existingAdmin.setPosition(admin.getPosition()); // Positionオブジェクトを設定
+            existingAdmin.setPermission(admin.getPermission()); // Permissionオブジェクトを設定
             existingAdmin.setPassword(admin.getPassword());
             return adminRepository.save(existingAdmin);
         }

@@ -3,55 +3,50 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>管理者編集</title>
+    <title>管理者詳細</title>
     <link rel="stylesheet" href="/css/styles.css">
 </head>
 <body>
     <header>
-        <h1>管理者編集</h1>
+        <h1>管理者詳細</h1>
     </header>
     <main>
-        <form action="/admin/update" method="post">
-            <input type="hidden" name="adminId" th:value="${admin.id}"> <!-- adminIdを追加 -->
-            <div>
-                <label>姓: </label>
-                <input type="text" name="lastName" th:value="${admin.lastName}">
-            </div>
-            <div>
-                <label>名: </label>
-                <input type="text" name="firstName" th:value="${admin.firstName}">
-            </div>
-            <div>
-                <label>Email: </label>
-                <input type="email" name="email" th:value="${admin.email}">
-            </div>
-            <div>
-                <label>役職: </label>
-                <select name="positionId">
-                    <option th:each="pos : ${positions}" th:value="${pos.id}" th:text="${pos.positionName}"
-                            th:selected="${pos.id == admin.position.id}"></option>
-                </select>
-            </div>
-            <div>
-                <label>権限: </label>
-                <select name="permissionId">
-                    <option th:each="perm : ${permissions}" th:value="${perm.id}" th:text="${perm.permissionName}"
-                            th:selected="${perm.id == admin.permission.id}"></option>
-                </select>
-            </div>
-            <div>
-                <label>電話番号: </label>
-                <input type="text" name="phone" th:value="${admin.phone}">
-            </div>
-            <div>
-                <label>パスワード: </label>
-                <input type="password" name="password" th:value="${admin.password}">
-            </div>
-            <div>
-                <button type="submit">更新</button>
-                <button type="button" th:onclick="'location.href=\'/admin/admin-details?adminId=' + ${admin.id}'">戻る</button>
-            </div>
-        </form>
+        <div>
+            <label>姓: </label>
+            <span th:text="${admin.lastName}"></span>
+        </div>
+        <div>
+            <label>名: </label>
+            <span th:text="${admin.firstName}"></span>
+        </div>
+        <div>
+            <label>Email: </label>
+            <span th:text="${admin.email}"></span>
+        </div>
+        <div>
+            <label>役職: </label>
+            <span th:text="${admin.position.positionName}"></span>
+        </div>
+        <div>
+            <label>権限: </label>
+            <span th:text="${admin.permission.permissionName}"></span>
+        </div>
+        <div>
+            <label>電話番号: </label>
+            <span th:text="${admin.phone}"></span>
+        </div>
+        <div>
+            <label>作成日: </label>
+            <span th:text="${#dates.format(admin.createdAt, 'yyyy-MM-dd HH:mm:ss')}"></span>
+        </div>
+        <div>
+            <label>更新日: </label>
+            <span th:text="${#dates.format(admin.updatedAt, 'yyyy-MM-dd HH:mm:ss')}"></span>
+        </div>
+        <div>
+            <button type="button" th:onclick="'location.href=\'/admin/admin-edit?adminId=' + ${admin.id} + '\''">編集</button>
+            <button type="button" onclick="location.href='/admin/admin-list'">戻る</button>
+        </div>
     </main>
 </body>
 </html>

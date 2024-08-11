@@ -70,10 +70,19 @@ public class AdminController {
     }
     
     @PostMapping("/admin/update")
-    public String updateAdmin(@RequestParam("adminId") Long adminId, @ModelAttribute Admin admin) {
+    public String updateAdmin(@RequestParam("adminId") Long adminId, 
+                              @RequestParam("positionId") Long positionId, 
+                              @RequestParam("permissionId") Long permissionId, 
+                              @ModelAttribute Admin admin) {
+        // PositionとPermissionを取得
+        admin.setPosition(positionService.getPositionById(positionId));
+        admin.setPermission(permissionService.getPermissionById(permissionId));
+        
+        // Adminを更新
         adminService.updateAdmin(adminId, admin);
         return "redirect:/admin/admin-details?adminId=" + adminId;
     }
+
 
 
 
