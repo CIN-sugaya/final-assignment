@@ -64,4 +64,9 @@ public class AdminServiceImpl implements AdminService {
     public void deleteAdmin(Long id) {
         adminRepository.deleteById(id);
     }
+
+    @Override
+    public List<Admin> getAdminsByStoreId(Long storeId) {
+        return adminRepository.findByStoreId(storeId);
+    }
 }

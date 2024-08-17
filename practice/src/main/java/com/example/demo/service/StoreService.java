@@ -25,4 +25,12 @@ public class StoreService {
     public List<Store> getAllStores() {
         return storeRepository.findAll();
     }
+
+    public Store updateStore(Store store) {
+        return storeRepository.save(store); // 変更を保存
+    }
+    public void saveStore(Store store) {
+        storeRepository.save(store);
+    }
+    
 }

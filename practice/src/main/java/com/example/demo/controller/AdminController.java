@@ -54,10 +54,14 @@ public class AdminController {
             // 管理者権限のチェック
             boolean isAdmin = currentAdmin.getPermission().getId() == 1;
             model.addAttribute("isAdmin", isAdmin);
+
+            // ログインしている管理者のストアIDを取得
+            Long storeId = currentAdmin.getStore().getId();
+
+            // ストアIDが同じ管理者のみを取得
+            model.addAttribute("admins", adminService.getAdminsByStoreId(storeId));
         }
 
-        // 管理者権限に関係なく、全てのユーザーに対して管理者リストを表示する
-        model.addAttribute("admins", adminService.getAllAdmins());
         return "admin/admin-list"; // 管理者リスト画面のテンプレート
     }
 
@@ -143,5 +147,19 @@ public class AdminController {
         adminService.createAdmin(admin);
         return "redirect:/admin/admin-list"; // 登録後に管理者一覧ページにリダイレクト
     }
+    
+    @GetMapping("/admin/profile")
+    public String showProfile(Model model) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        if (authentication.getPrincipal() instanceof CustomUserDetails) {
+            CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
+            Admin currentAdmin = userDetails.getAdmin();
+            model.addAttribute("admin", currentAdmin);
+        }
+
+        return "admin/profile"; // プロフィール画面のテンプレート
+    }
+
 
 }

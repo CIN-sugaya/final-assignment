@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>店舗編集画面</title>
+    <link rel="stylesheet" href="/css/styles.css"> <!-- 必要に応じてCSSファイルを追加 -->
+</head>
+<body>
+    <header>
+        <h1>店舗編集画面</h1>
+    </header>
+    <main>
+        <form th:action="@{/store/store-update}" method="post">
+            <input type="hidden" name="storeId" th:value="${store.id}" />
+            <div>
+                <label for="storeName">店舗名:</label>
+                <input type="text" id="storeName" name="storeName" th:value="${store.storeName}" required minlength="1" maxlength="255"/>
+            </div>
+            <div>
+                <label for="address">住所:</label>
+                <input type="text" id="address" name="address" th:value="${store.address}" required minlength="1" maxlength="255"/>
+            </div>
+            <div>
+                <button type="submit">更新</button>
+                <button type="button" th:onclick="'location.href=\'/store/store-management?storeId=' + ${store.id} + '\''">戻る</button>
+            </div>
+        </form>
+    </main>
+</body>
+</html>

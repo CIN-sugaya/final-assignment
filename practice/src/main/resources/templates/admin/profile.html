@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>プロフィール</title>
+    <link rel="stylesheet" href="/css/styles.css"> <!-- 必要に応じてCSSファイルを追加 -->
+</head>
+<body>
+    <header>
+        <h1>プロフィール</h1>
+    </header>
+    <main>
+        <div>
+            <label>姓: </label>
+            <span th:text="${admin.lastName}"></span>
+        </div>
+        <div>
+            <label>名: </label>
+            <span th:text="${admin.firstName}"></span>
+        </div>
+        <div>
+            <label>Email: </label>
+            <span th:text="${admin.email}"></span>
+        </div>
+        <div>
+            <label>役職: </label>
+            <span th:text="${admin.position.positionName}"></span>
+        </div>
+        <div>
+            <label>権限: </label>
+            <span th:text="${admin.permission.permissionName}"></span>
+        </div>
+        <div>
+            <label>電話番号: </label>
+            <span th:text="${admin.phone}"></span>
+        </div>
+        <div>
+            <label>店舗名: </label>
+            <span th:text="${admin.store.storeName}"></span> <!-- 店舗名を追加 -->
+        </div>
+        <div>
+            <button type="button" th:onclick="'location.href=\'/admin/admin-edit?adminId=' + ${admin.id} + '\''">編集</button>
+            <button type="button" th:onclick="'location.href=\'/admin/dashboard\''">戻る</button>
+        </div>
+    </main>
+</body>
+</html>
