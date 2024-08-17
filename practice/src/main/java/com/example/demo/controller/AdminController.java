@@ -1,6 +1,8 @@
 package com.example.demo.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -9,10 +11,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.demo.entity.Admin;
+import com.example.demo.security.CustomUserDetails;
 import com.example.demo.service.AdminService;
 import com.example.demo.service.PermissionService;
 import com.example.demo.service.PositionService;
-
+import com.example.demo.service.StoreService;
 
 @Controller
 public class AdminController {
@@ -20,12 +23,14 @@ public class AdminController {
     private final AdminService adminService;
     private final PositionService positionService;
     private final PermissionService permissionService;
+    private final StoreService storeService;
 
     @Autowired
-    public AdminController(AdminService adminService, PositionService positionService, PermissionService permissionService) {
+    public AdminController(AdminService adminService, PositionService positionService, PermissionService permissionService, StoreService storeService) {
         this.adminService = adminService;
         this.positionService = positionService;
         this.permissionService = permissionService;
+        this.storeService = storeService;
     }
 
     @GetMapping("/admin/login")
@@ -40,13 +45,35 @@ public class AdminController {
 
     @GetMapping("/admin/admin-list")
     public String showAdminList(Model model) {
-        // 管理者データを取得してモデルに追加
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        if (authentication.getPrincipal() instanceof CustomUserDetails) {
+            CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
+            Admin currentAdmin = userDetails.getAdmin();
+
+            // 管理者権限のチェック
+            boolean isAdmin = currentAdmin.getPermission().getId() == 1;
+            model.addAttribute("isAdmin", isAdmin);
+        }
+
+        // 管理者権限に関係なく、全てのユーザーに対して管理者リストを表示する
         model.addAttribute("admins", adminService.getAllAdmins());
-        return "admin/admin-list"; // Thymeleafテンプレートのパス
+        return "admin/admin-list"; // 管理者リスト画面のテンプレート
     }
-    
+
     @GetMapping("/admin/admin-details")
     public String showAdminDetails(@RequestParam("adminId") Long adminId, Model model) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        
+        if (authentication.getPrincipal() instanceof CustomUserDetails) {
+            CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
+            Admin currentAdmin = userDetails.getAdmin();
+
+            // 管理者権限のチェック
+            boolean isAdmin = currentAdmin.getPermission().getId() == 1;
+            model.addAttribute("isAdmin", isAdmin);
+        }
+        
         Admin admin = adminService.getAdminById(adminId);
         if (admin != null) {
             model.addAttribute("admin", admin);
@@ -55,6 +82,17 @@ public class AdminController {
             return "redirect:/admin/admin-list"; // 管理者が存在しない場合、一覧にリダイレクト
         }
     }
+
+    @PostMapping("/admin/delete")
+    public String deleteAdmin(@RequestParam("adminId") Long adminId, Authentication authentication) {
+        if (authentication.getAuthorities().stream()
+                .anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equals("ROLE_ADMIN"))) {
+            adminService.deleteAdmin(adminId);
+            return "redirect:/admin/admin-list";
+        }
+        return "redirect:/admin/admin-details?adminId=" + adminId;
+    }
+
     
     @GetMapping("/admin/admin-edit")
     public String showAdminEdit(@RequestParam("adminId") Long adminId, Model model) {
@@ -63,6 +101,7 @@ public class AdminController {
             model.addAttribute("admin", admin);
             model.addAttribute("positions", positionService.getAllPositions()); // 全役職リスト
             model.addAttribute("permissions", permissionService.getAllPermissions()); // 全権限リスト
+            model.addAttribute("stores", storeService.getAllStores()); // 店舗リストをモデルに追加
             return "admin/admin-edit"; // 管理者編集画面のテンプレート
         } else {
             return "redirect:/admin/admin-list"; // 管理者が存在しない場合、一覧にリダイレクト
@@ -73,17 +112,36 @@ public class AdminController {
     public String updateAdmin(@RequestParam("adminId") Long adminId, 
                               @RequestParam("positionId") Long positionId, 
                               @RequestParam("permissionId") Long permissionId, 
+                              @RequestParam("storeId") Long storeId,  // storeId の追加
                               @ModelAttribute Admin admin) {
-        // PositionとPermissionを取得
         admin.setPosition(positionService.getPositionById(positionId));
         admin.setPermission(permissionService.getPermissionById(permissionId));
-        
-        // Adminを更新
+        admin.setStore(storeService.getStoreById(storeId));  // store オブジェクトの設定
         adminService.updateAdmin(adminId, admin);
         return "redirect:/admin/admin-details?adminId=" + adminId;
     }
+    
+    @GetMapping("/admin/admin-register")
+    public String showAdminRegister(Model model) {
+        model.addAttribute("admin", new Admin());
+        model.addAttribute("positions", positionService.getAllPositions());
+        model.addAttribute("permissions", permissionService.getAllPermissions());
+        model.addAttribute("stores", storeService.getAllStores()); // 店舗リストをモデルに追加
+        return "admin/admin-register"; // 新規登録画面のテンプレートファイル名
+    }
 
 
-
+ // 新規管理者登録処理
+    @PostMapping("/admin/register")
+    public String registerAdmin(@RequestParam("positionId") Long positionId, 
+                                @RequestParam("permissionId") Long permissionId, 
+                                @RequestParam("storeId") Long storeId,  // storeId の追加
+                                @ModelAttribute Admin admin) {
+        admin.setPosition(positionService.getPositionById(positionId));
+        admin.setPermission(permissionService.getPermissionById(permissionId));
+        admin.setStore(storeService.getStoreById(storeId));  // store オブジェクトの設定
+        adminService.createAdmin(admin);
+        return "redirect:/admin/admin-list"; // 登録後に管理者一覧ページにリダイレクト
+    }
 
 }

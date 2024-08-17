@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>管理者登録</title>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+    <header>
+        <h1>管理者登録</h1>
+    </header>
+    <main>
+        <form action="/admin/register" method="post">
+            <div>
+                <label>姓: </label>
+                <input type="text" name="lastName" th:value="${admin.lastName}" required>
+            </div>
+            <div>
+                <label>名: </label>
+                <input type="text" name="firstName" th:value="${admin.firstName}" required>
+            </div>
+            <div>
+                <label>Email: </label>
+                <input type="email" name="email" th:value="${admin.email}" required>
+            </div>
+            <div>
+                <label>役職: </label>
+                <select name="positionId" required>
+                    <option th:each="pos : ${positions}" th:value="${pos.id}" th:text="${pos.positionName}"></option>
+                </select>
+            </div>
+            <div>
+                <label>権限: </label>
+                <select name="permissionId" required>
+                    <option th:each="perm : ${permissions}" th:value="${perm.id}" th:text="${perm.permissionName}"></option>
+                </select>
+            </div>
+            <div>
+                <label>電話番号: </label>
+                <input type="text" name="phone" th:value="${admin.phone}" required>
+            </div>
+            <div>
+                <label>パスワード: </label>
+                <input type="password" name="password" required>
+            </div>			
+			<div>
+			    <label>店舗: </label>
+			    <select name="storeId">
+			        <option th:each="store : ${stores}" th:value="${store.id}" th:text="${store.storeName}"></option>
+			    </select>
+			</div>
+
+            <div>
+                <button type="submit">登録</button>
+                <button type="button" onclick="location.href='/admin/admin-list'">戻る</button>
+            </div>
+        </form>
+    </main>
+</body>
+</html>

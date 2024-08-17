@@ -36,6 +36,10 @@
             <span th:text="${admin.phone}"></span>
         </div>
         <div>
+            <label>店舗: </label>
+            <span th:text="${admin.store.storeName}"></span> <!-- ここに店舗名を表示 -->
+        </div>
+        <div>
             <label>作成日: </label>
             <span th:text="${#dates.format(admin.createdAt, 'yyyy-MM-dd HH:mm:ss')}"></span>
         </div>
@@ -44,7 +48,17 @@
             <span th:text="${#dates.format(admin.updatedAt, 'yyyy-MM-dd HH:mm:ss')}"></span>
         </div>
         <div>
-            <button type="button" th:onclick="'location.href=\'/admin/admin-edit?adminId=' + ${admin.id} + '\''">編集</button>
+			<button type="button" 
+			    th:if="${isAdmin}" 
+				th:onclick="'location.href=\'/admin/admin-edit?adminId=' + ${admin.id} + '\''">
+				編集
+			</button>		
+            <!-- ログインしているユーザーの position_id が 1 であれば削除ボタンを表示 -->
+			<button type="button" 
+			    th:if="${isAdmin}" 
+			    th:onclick="'location.href=\'/admin/delete?adminId=' + ${admin.id} + '\''">
+			    削除
+			</button>
             <button type="button" onclick="location.href='/admin/admin-list'">戻る</button>
         </div>
     </main>

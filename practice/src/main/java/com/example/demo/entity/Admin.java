@@ -47,9 +47,10 @@ public class Admin {
     @JoinColumn(name = "permission_id", nullable = false)
     private Permission permission;
 
+    @ManyToOne
+    @JoinColumn(name = "store_id", nullable = false)
+    private Store store;
+
     @Column(name = "phone", nullable = false)
     private String phone;
-
-    @Column(name = "store_id", nullable = false)
-    private int storeId;
 }

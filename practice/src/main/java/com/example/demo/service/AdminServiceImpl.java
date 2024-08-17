@@ -49,6 +49,7 @@ public class AdminServiceImpl implements AdminService {
             existingAdmin.setPhone(admin.getPhone());
             existingAdmin.setPosition(admin.getPosition());
             existingAdmin.setPermission(admin.getPermission());
+            existingAdmin.setStore(admin.getStore()); // Store オブジェクトを設定
 
             if (!admin.getPassword().equals(existingAdmin.getPassword())) {
                 existingAdmin.setPassword(passwordEncoder.encode(admin.getPassword()));

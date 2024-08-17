@@ -48,8 +48,14 @@
                 <input type="password" name="password" th:value="${admin.password}">
             </div>
             <div>
+                <label>店舗: </label>
+                <select name="storeId">
+                    <option th:each="store : ${stores}" th:value="${store.id}" th:text="${store.storeName}"
+                            th:selected="${store.id == admin.store.id}"></option>
+                </select>
+            </div>
+            <div>
                 <button type="submit">更新</button>
-                <!-- 戻るボタンは削除 -->
             </div>
         </form>
     </main>

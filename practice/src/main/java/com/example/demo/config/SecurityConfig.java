@@ -32,9 +32,9 @@ public class SecurityConfig {
                 .anyRequest().permitAll()
             )
             .formLogin(form -> form
-                .loginPage("/admin/login") // カスタムログインページのパス
-                .defaultSuccessUrl("/admin/dashboard", true) // ログイン成功後のリダイレクト先
-                .failureUrl("/admin/login?error") // ログイン失敗時のリダイレクト先
+                .loginPage("/admin/login")
+                .defaultSuccessUrl("/admin/dashboard", true)
+                .failureUrl("/admin/login?error")
                 .permitAll()
             )
             .logout(logout -> logout
@@ -45,4 +45,5 @@ public class SecurityConfig {
 
         return http.build();
     }
+
 }

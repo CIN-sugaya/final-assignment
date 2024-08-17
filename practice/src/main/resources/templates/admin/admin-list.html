@@ -21,6 +21,7 @@
                     <th>管理者名</th>
                     <th>役職</th>
                     <th>権限</th>
+                    <th>店舗</th> <!-- 店舗名の表示 -->
                     <th>詳細</th>
                 </tr>
             </thead>
@@ -29,6 +30,7 @@
                     <td th:text="${admin.lastName} + ' ' + ${admin.firstName}"></td>
                     <td th:text="${admin.position.positionName}"></td> <!-- 役職名の表示 -->
                     <td th:text="${admin.permission.permissionName}"></td> <!-- 権限名の表示 -->
+                    <td th:text="${admin.store.storeName}"></td> <!-- 店舗名の表示 -->
                     <td>
                         <form th:action="@{/admin/admin-details}" method="get">
                             <input type="hidden" name="adminId" th:value="${admin.id}"/>
@@ -39,8 +41,8 @@
             </tbody>
         </table>
         <div>
-            <form th:action="@{/admin/admin-register}" method="get">
-                <button type="submit">新規登録</button>
+			<form th:action="@{/admin/admin-register}" method="get">
+			    <button type="submit" th:if="${isAdmin}">新規登録</button>
             </form>
         </div>
     </main>
