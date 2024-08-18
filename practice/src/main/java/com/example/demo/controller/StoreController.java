@@ -34,9 +34,10 @@ public class StoreController {
             Store store = storeService.getStoreById(storeId);
             model.addAttribute("store", store);
         }
-        
 
+        return "store/store-management"; 
     }
+
 
     @GetMapping("/store/store-edit")
     public String showStoreEdit(Model model) {
