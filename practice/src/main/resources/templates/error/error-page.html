@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>エラーページ</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+            color: #333;
+            text-align: center;
+            padding: 50px;
+        }
+        .error-container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: white;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            font-size: 24px;
+            color: #d9534f;
+        }
+        p {
+            margin: 15px 0;
+            font-size: 18px;
+        }
+        a {
+            display: inline-block;
+            margin-top: 20px;
+            text-decoration: none;
+            color: #007bff;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="error-container">
+        <h1>エラーが発生しました</h1>
+        <p th:text="${errorMessage}">エラーメッセージを表示します。</p>
+        <a href="javascript:history.back()">戻る</a> <!-- 直前のページに戻るリンク -->
+        <br/>
+        <a th:href="@{/}">ホームに戻る</a> <!-- ホームページに戻るリンク -->
+    </div>
+</body>
+</html>

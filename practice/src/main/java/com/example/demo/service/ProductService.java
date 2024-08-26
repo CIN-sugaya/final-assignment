@@ -1,24 +1,29 @@
 package com.example.demo.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import java.util.Optional;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.stereotype.Service;
 
 import com.example.demo.entity.Product;
-import com.example.demo.repository.ProductRepository;
 
-@Service
-public class ProductService {
+public interface ProductService {
 
-    private final ProductRepository productRepository;
+    // 商品IDで商品を取得
+    Optional<Product> getProductById(Integer productId);  
 
-    @Autowired
-    public ProductService(ProductRepository productRepository) {
-        this.productRepository = productRepository;
-    }
+    // ストアと商品IDに基づいて在庫数を取得
+    Integer getStockQuantityForStore(Integer productId, Integer storeId);  // storeId 引数を追加
 
-    public Page<Product> searchProducts(String productName, Long mainCategoryId, Long subCategoryId, Long subSubCategoryId, Pageable pageable) {
-        return productRepository.findByCriteria(productName, mainCategoryId, subCategoryId, subSubCategoryId, pageable);
-    }
+    // 在庫数を増加させる
+    void increaseStockQuantity(Integer productId, Integer storeId, Integer quantity);  
+
+    // 在庫数を更新する
+    void updateStockQuantity(Integer productId, Integer storeId, Integer quantity);  // storeId 引数を追加
+
+    // 商品を検索するメソッド（名前やカテゴリでの検索など）
+    Page<Product> searchProducts(String productName, Integer mainCategoryId, Integer subCategoryId, Integer subSubCategoryId, Pageable pageable);  
+   
+    Product findById(Integer id);
+
 }

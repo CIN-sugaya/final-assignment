@@ -8,7 +8,7 @@ import org.springframework.data.repository.query.Param;
 
 import com.example.demo.entity.Product;
 
-public interface ProductRepository extends JpaRepository<Product, Long> {
+public interface ProductRepository extends JpaRepository<Product, Integer> {
 
     @Query("SELECT p FROM Product p WHERE " +
            "(:productName IS NULL OR p.productName LIKE %:productName%) AND " +
@@ -16,8 +16,8 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
            "(:subCategoryId IS NULL OR p.subSubCategory.subCategory.id = :subCategoryId) AND " +
            "(:subSubCategoryId IS NULL OR p.subSubCategory.id = :subSubCategoryId)")
     Page<Product> findByCriteria(@Param("productName") String productName,
-                                 @Param("mainCategoryId") Long mainCategoryId,
-                                 @Param("subCategoryId") Long subCategoryId,
-                                 @Param("subSubCategoryId") Long subSubCategoryId,
+                                 @Param("mainCategoryId") Integer mainCategoryId,
+                                 @Param("subCategoryId") Integer subCategoryId,
+                                 @Param("subSubCategoryId") Integer subSubCategoryId,
                                  Pageable pageable);
 }

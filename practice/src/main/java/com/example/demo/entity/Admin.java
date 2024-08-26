@@ -16,10 +16,10 @@ import lombok.Data;
 @Table(name = "admin")
 @Data
 public class Admin {
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "admin_id")
-	private Integer id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "admin_id")
+    private Integer id;  // IntegerからLongに変更
 
     @Column(name = "email", nullable = false)
     private String email;

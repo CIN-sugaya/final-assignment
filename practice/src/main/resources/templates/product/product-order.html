@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>商品発注</title>
+</head>
+<body>
+    <!-- タイトル -->
+    <h1>商品発注</h1>
+
+    <!-- 商品情報の表示 -->
+    <div>
+        <label>商品名:</label>
+        <span th:text="${product.productName}">商品名</span>
+    </div>
+    <div>
+        <label>大カテゴリ:</label>
+        <span th:text="${product.subSubCategory.subCategory.mainCategory.mainCategoryName}">大カテゴリ名</span>
+    </div>
+    <div>
+        <label>中カテゴリ:</label>
+        <span th:text="${product.subSubCategory.subCategory.subCategoryName}">中カテゴリ名</span>
+    </div>
+    <div>
+        <label>小カテゴリ:</label>
+        <span th:text="${product.subSubCategory.subSubCategoryName}">小カテゴリ名</span>
+    </div>
+    <div>
+        <label>メーカー:</label>
+        <span th:text="${product.manufacturer.manufacturerName}">メーカー名</span>
+    </div>
+    <div>
+        <label>商品の説明:</label>
+        <span th:text="${product.description}">商品の説明</span>
+    </div>
+
+	<!-- 発注フォーム -->
+	<form th:action="@{/product/order}" method="post">
+	    <input type="hidden" name="productId" th:value="${product.productId}" />
+	
+	    <!-- 発注数のセレクトボックス -->
+	    <div>
+	        <label for="orderQuantity">発注数:</label>
+	        <select id="orderQuantity" name="orderQuantity" required>
+	            <option value="" disabled selected>発注数を選択</option>
+	            <!-- 1から100までのオプションを生成 -->
+	            <th:block th:each="i : ${#numbers.sequence(1, 100)}">
+	                <option th:value="${i}" th:text="${i}"></option>
+	            </th:block>
+	        </select>
+	    </div>
+	
+	    <!-- 在庫数の表示 -->
+	    <div>
+	        <label>在庫数:</label>
+	        <span th:text="${stockQuantity}">在庫数</span>
+	    </div>
+	
+	    <!-- 発注ボタン -->
+	    <div>
+	        <button type="submit">発注</button>
+	    </div>
+	</form>
+	
+	<!-- 戻るボタン -->
+	<div>
+	    <button type="button" th:onclick="|location.href='/product/detail?productId=${product.productId}'|">戻る</button>
+	</div>
+	
+	<!-- エラーメッセージ表示エリア -->
+	<div th:if="${errorMessage}" style="color:red; margin-top: 20px;">
+	    <p th:text="${errorMessage}">発注処理に誤りがあります。</p>
+	</div>
+</body>
+</html>

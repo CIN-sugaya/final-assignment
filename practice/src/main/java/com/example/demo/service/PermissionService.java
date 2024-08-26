@@ -3,7 +3,6 @@ package com.example.demo.service;
 import java.util.List;
 import java.util.Optional;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.demo.entity.Permission;
@@ -14,7 +13,6 @@ public class PermissionService {
 
     private final PermissionRepository permissionRepository;
 
-    @Autowired
     public PermissionService(PermissionRepository permissionRepository) {
         this.permissionRepository = permissionRepository;
     }
@@ -23,7 +21,7 @@ public class PermissionService {
         return permissionRepository.findAll();
     }
 
-    public Permission getPermissionById(Long id) {
+    public Permission getPermissionById(Integer id) {  // LongからIntegerに変更
         Optional<Permission> permission = permissionRepository.findById(id);
         return permission.orElse(null);
     }

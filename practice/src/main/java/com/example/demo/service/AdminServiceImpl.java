@@ -28,7 +28,7 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public Admin getAdminById(Long id) {
+    public Admin getAdminById(Integer id) {  // LongからIntegerに変更
         Optional<Admin> optionalAdmin = adminRepository.findById(id);
         return optionalAdmin.orElse(null);
     }
@@ -40,7 +40,7 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public Admin updateAdmin(Long id, Admin admin) {
+    public Admin updateAdmin(Integer id, Admin admin) {  // LongからIntegerに変更
         Admin existingAdmin = getAdminById(id);
         if (existingAdmin != null) {
             existingAdmin.setFirstName(admin.getFirstName());
@@ -49,7 +49,7 @@ public class AdminServiceImpl implements AdminService {
             existingAdmin.setPhone(admin.getPhone());
             existingAdmin.setPosition(admin.getPosition());
             existingAdmin.setPermission(admin.getPermission());
-            existingAdmin.setStore(admin.getStore()); // Store オブジェクトを設定
+            existingAdmin.setStore(admin.getStore());
 
             if (!admin.getPassword().equals(existingAdmin.getPassword())) {
                 existingAdmin.setPassword(passwordEncoder.encode(admin.getPassword()));
@@ -61,12 +61,28 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public void deleteAdmin(Long id) {
+    public void deleteAdmin(Integer id) {  // LongからIntegerに変更
         adminRepository.deleteById(id);
     }
 
     @Override
-    public List<Admin> getAdminsByStoreId(Long storeId) {
+    public List<Admin> getAdminsByStoreId(Integer storeId) {  // LongからIntegerに変更
         return adminRepository.findByStoreId(storeId);
+    }
+
+    @Override
+    public Admin findByEmail(String email) {
+        Admin admin = adminRepository.findByEmail(email).orElse(null);
+        if (admin != null) {
+            System.out.println("Admin found: " + admin.getEmail() + ", Store ID: " + (admin.getStore() != null ? admin.getStore().getId() : "null"));
+        } else {
+            System.out.println("Admin not found for email: " + email);
+        }
+        return admin;
+    }
+    
+    @Override
+    public Optional<Admin> findById(Integer id) {
+        return adminRepository.findById(id);
     }
 }

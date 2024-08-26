@@ -2,7 +2,6 @@ package com.example.demo.service;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.demo.entity.Store;
@@ -13,12 +12,12 @@ public class StoreService {
 
     private final StoreRepository storeRepository;
 
-    @Autowired
+    // @Autowiredは不要です
     public StoreService(StoreRepository storeRepository) {
         this.storeRepository = storeRepository;
     }
 
-    public Store getStoreById(Long storeId) {
+    public Store getStoreById(Integer storeId) { // LongからIntegerに変更
         return storeRepository.findById(storeId).orElse(null);
     }
 
@@ -29,8 +28,8 @@ public class StoreService {
     public Store updateStore(Store store) {
         return storeRepository.save(store); // 変更を保存
     }
+
     public void saveStore(Store store) {
         storeRepository.save(store);
     }
-    
 }

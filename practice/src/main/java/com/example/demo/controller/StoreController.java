@@ -21,6 +21,7 @@ public class StoreController {
     public StoreController(StoreService storeService) {
         this.storeService = storeService;
     }
+
     @GetMapping("/store/store-management")
     public String showStoreManagement(Model model) {
         // 現在の管理者を取得
@@ -30,14 +31,13 @@ public class StoreController {
             Admin currentAdmin = userDetails.getAdmin();
             
             // 管理者が属する店舗の情報を取得
-            Long storeId = currentAdmin.getStore().getId();
-            Store store = storeService.getStoreById(storeId);
+            Integer storeId = currentAdmin.getStore().getId();  // LongからIntegerに変更
+            Store store = storeService.getStoreById(storeId);  // LongからIntegerに変更
             model.addAttribute("store", store);
         }
 
         return "store/store-management"; 
     }
-
 
     @GetMapping("/store/store-edit")
     public String showStoreEdit(Model model) {
@@ -48,17 +48,15 @@ public class StoreController {
             Admin currentAdmin = userDetails.getAdmin();
 
             // ログインしているユーザーの storeId を取得
-            Long storeId = currentAdmin.getStore().getId();
+            Integer storeId = currentAdmin.getStore().getId();  // LongからIntegerに変更
 
             // 管理者権限のチェック
             boolean isAdmin = currentAdmin.getPermission().getId() == 1;
             model.addAttribute("isAdmin", isAdmin);
 
             // 編集する店舗情報を取得
-            Store store = storeService.getStoreById(storeId);
+            Store store = storeService.getStoreById(storeId);  // LongからIntegerに変更
             model.addAttribute("store", store);
-            
-            
 
             return "store/store-edit"; // 店舗編集画面のテンプレート
         }

@@ -56,7 +56,7 @@ public class AdminController {
             model.addAttribute("isAdmin", isAdmin);
 
             // ログインしている管理者のストアIDを取得
-            Long storeId = currentAdmin.getStore().getId();
+            Integer storeId = currentAdmin.getStore().getId();  // LongからIntegerに変更
 
             // ストアIDが同じ管理者のみを取得
             model.addAttribute("admins", adminService.getAdminsByStoreId(storeId));
@@ -66,7 +66,7 @@ public class AdminController {
     }
 
     @GetMapping("/admin/admin-details")
-    public String showAdminDetails(@RequestParam("adminId") Long adminId, Model model) {
+    public String showAdminDetails(@RequestParam("adminId") Integer adminId, Model model) {  // LongからIntegerに変更
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         
         if (authentication.getPrincipal() instanceof CustomUserDetails) {
@@ -88,7 +88,7 @@ public class AdminController {
     }
 
     @PostMapping("/admin/delete")
-    public String deleteAdmin(@RequestParam("adminId") Long adminId, Authentication authentication) {
+    public String deleteAdmin(@RequestParam("adminId") Integer adminId, Authentication authentication) {  // LongからIntegerに変更
         if (authentication.getAuthorities().stream()
                 .anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equals("ROLE_ADMIN"))) {
             adminService.deleteAdmin(adminId);
@@ -97,9 +97,8 @@ public class AdminController {
         return "redirect:/admin/admin-details?adminId=" + adminId;
     }
 
-    
     @GetMapping("/admin/admin-edit")
-    public String showAdminEdit(@RequestParam("adminId") Long adminId, Model model) {
+    public String showAdminEdit(@RequestParam("adminId") Integer adminId, Model model) {  // LongからIntegerに変更
         Admin admin = adminService.getAdminById(adminId);
         if (admin != null) {
             model.addAttribute("admin", admin);
@@ -113,10 +112,10 @@ public class AdminController {
     }
     
     @PostMapping("/admin/update")
-    public String updateAdmin(@RequestParam("adminId") Long adminId, 
-                              @RequestParam("positionId") Long positionId, 
-                              @RequestParam("permissionId") Long permissionId, 
-                              @RequestParam("storeId") Long storeId,  // storeId の追加
+    public String updateAdmin(@RequestParam("adminId") Integer adminId,  // LongからIntegerに変更
+                              @RequestParam("positionId") Integer positionId,  // LongからIntegerに変更
+                              @RequestParam("permissionId") Integer permissionId,  // LongからIntegerに変更
+                              @RequestParam("storeId") Integer storeId,  // LongからIntegerに変更
                               @ModelAttribute Admin admin) {
         admin.setPosition(positionService.getPositionById(positionId));
         admin.setPermission(permissionService.getPermissionById(permissionId));
@@ -134,12 +133,10 @@ public class AdminController {
         return "admin/admin-register"; // 新規登録画面のテンプレートファイル名
     }
 
-
- // 新規管理者登録処理
     @PostMapping("/admin/register")
-    public String registerAdmin(@RequestParam("positionId") Long positionId, 
-                                @RequestParam("permissionId") Long permissionId, 
-                                @RequestParam("storeId") Long storeId,  // storeId の追加
+    public String registerAdmin(@RequestParam("positionId") Integer positionId,  // LongからIntegerに変更
+                                @RequestParam("permissionId") Integer permissionId,  // LongからIntegerに変更
+                                @RequestParam("storeId") Integer storeId,  // LongからIntegerに変更
                                 @ModelAttribute Admin admin) {
         admin.setPosition(positionService.getPositionById(positionId));
         admin.setPermission(permissionService.getPermissionById(permissionId));
@@ -160,6 +157,5 @@ public class AdminController {
 
         return "admin/profile"; // プロフィール画面のテンプレート
     }
-
 
 }

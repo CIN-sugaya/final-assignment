@@ -3,7 +3,6 @@ package com.example.demo.service;
 import java.util.List;
 import java.util.Optional;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.demo.entity.Position;
@@ -14,7 +13,6 @@ public class PositionService {
 
     private final PositionRepository positionRepository;
 
-    @Autowired
     public PositionService(PositionRepository positionRepository) {
         this.positionRepository = positionRepository;
     }
@@ -23,7 +21,7 @@ public class PositionService {
         return positionRepository.findAll();
     }
 
-    public Position getPositionById(Long id) {
+    public Position getPositionById(Integer id) {  // LongからIntegerに変更
         Optional<Position> optionalPosition = positionRepository.findById(id);
         return optionalPosition.orElse(null);
     }
