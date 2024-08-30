@@ -28,7 +28,7 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public Admin getAdminById(Integer id) {  // LongからIntegerに変更
+    public Admin getAdminById(Integer id) {
         Optional<Admin> optionalAdmin = adminRepository.findById(id);
         return optionalAdmin.orElse(null);
     }
@@ -40,7 +40,7 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public Admin updateAdmin(Integer id, Admin admin) {  // LongからIntegerに変更
+    public Admin updateAdmin(Integer id, Admin admin) {
         Admin existingAdmin = getAdminById(id);
         if (existingAdmin != null) {
             existingAdmin.setFirstName(admin.getFirstName());
@@ -61,26 +61,20 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public void deleteAdmin(Integer id) {  // LongからIntegerに変更
+    public void deleteAdmin(Integer id) {
         adminRepository.deleteById(id);
     }
 
     @Override
-    public List<Admin> getAdminsByStoreId(Integer storeId) {  // LongからIntegerに変更
+    public List<Admin> getAdminsByStoreId(Integer storeId) {
         return adminRepository.findByStoreId(storeId);
     }
 
     @Override
-    public Admin findByEmail(String email) {
-        Admin admin = adminRepository.findByEmail(email).orElse(null);
-        if (admin != null) {
-            System.out.println("Admin found: " + admin.getEmail() + ", Store ID: " + (admin.getStore() != null ? admin.getStore().getId() : "null"));
-        } else {
-            System.out.println("Admin not found for email: " + email);
-        }
-        return admin;
+    public Optional<Admin> findByEmail(String email) {
+        return adminRepository.findByEmail(email);
     }
-    
+
     @Override
     public Optional<Admin> findById(Integer id) {
         return adminRepository.findById(id);

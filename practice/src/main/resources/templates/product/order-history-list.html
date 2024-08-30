@@ -14,7 +14,8 @@
                 <th>発注数</th> <!-- No.3 発注数 -->
                 <th>発注者</th> <!-- No.4 発注者 -->
                 <th>合計金額</th> <!-- No.5 合計金額 -->
-                <th>発注日時</th> <!-- No.6 発注日時 -->
+                <th>店舗名</th> <!-- 追加：No.6 店舗名 -->
+                <th>発注日時</th> <!-- No.7 発注日時 -->
             </tr>
         </thead>
         <tbody>
@@ -23,12 +24,13 @@
                 <td th:text="${orderHistory['orderQuantity']}">発注数</td>
                 <td th:text="${orderHistory['adminLastName']}">発注者</td>
                 <td th:text="${orderHistory['totalAmount']}">合計金額</td>
-                <td th:text="${#dates.format(orderHistory['createdAt'], 'yyyy/MM/dd HH:mm:ss')}">発注日時</td>
+                <td th:text="${orderHistory['storeName']}">店舗名</td> <!-- 追加：店舗名を表示 -->
+                <td th:text="${#temporals.format(orderHistory['createdAt'], 'yyyy/MM/dd HH:mm:ss')}">発注日時</td>
             </tr>
         </tbody>
     </table>
 
     <!-- No.7 戻るボタン -->
-    <button onclick="location.href='/admin/top'">戻る</button>
+    <button onclick="location.href='/admin/dashboard'">戻る</button>
 </body>
 </html>

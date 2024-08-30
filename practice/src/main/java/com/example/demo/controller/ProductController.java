@@ -2,6 +2,7 @@ package com.example.demo.controller;
 
 import java.math.BigDecimal;
 import java.security.Principal;
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 import org.springframework.data.domain.Page;
@@ -146,7 +147,8 @@ public class ProductController {
             }
         }
 
-        return "product/product-order";
+        model.addAttribute("errorMessage", "認証されていないユーザーです。");
+        return "error/error-page"; // エラーページを指定してください
     }
 
     @PostMapping("/product/order")
@@ -158,46 +160,57 @@ public class ProductController {
 
         if (optionalProduct.isPresent()) {
             Product product = optionalProduct.get();
-            
+
             // 商品情報をモデルに追加
-            model.addAttribute("product", product); 
+            model.addAttribute("product", product);
 
-            Admin admin = adminService.findByEmail(principal.getName());
-            Store store = admin.getStore();
+            // Optionalを使用してAdminを取得する
+            Optional<Admin> optionalAdmin = adminService.findByEmail(principal.getName());
+            if (optionalAdmin.isPresent()) {
+                Admin admin = optionalAdmin.get();  // OptionalからAdminを取得
+                Store store = admin.getStore();
 
-            BigDecimal suggestedRetailPrice = BigDecimal.valueOf(product.getSuggestedRetailPrice());
-            BigDecimal totalPrice = suggestedRetailPrice.multiply(BigDecimal.valueOf(orderQuantity));
+                BigDecimal suggestedRetailPrice = BigDecimal.valueOf(product.getSuggestedRetailPrice());
+                BigDecimal totalPrice = suggestedRetailPrice.multiply(BigDecimal.valueOf(orderQuantity));
 
-            OrderHistory orderHistory = new OrderHistory();
-            orderHistory.setAdminId(admin.getId());  
-            orderHistory.setProductId(product.getProductId());  
-            orderHistory.setStoreId(store.getId());  
-            orderHistory.setOrderQuantity(orderQuantity);
-            orderHistory.setTotalPrice(totalPrice);
+                OrderHistory orderHistory = new OrderHistory();
+                orderHistory.setAdmin(admin);  // Adminエンティティ全体を設定
+                orderHistory.setProduct(product);  // Productエンティティ全体を設定
+                orderHistory.setStore(store);  // Storeエンティティ全体を設定
+                orderHistory.setOrderQuantity(orderQuantity);
+                orderHistory.setTotalPrice(totalPrice);
+                orderHistory.setCreatedAt(LocalDateTime.now());  // 現在の日時を設定
 
-            orderHistoryRepository.save(orderHistory);
+                orderHistoryRepository.save(orderHistory);
 
-            Optional<StoreProduct> existingStoreProduct = storeProductRepository.findByStoreIdAndProductId(store.getId(), product.getProductId());
+                Optional<StoreProduct> existingStoreProduct = storeProductRepository.findByStoreIdAndProductId(store.getId(), product.getProductId());
 
-            if (existingStoreProduct.isPresent()) {
-                StoreProduct storeProduct = existingStoreProduct.get();
-                storeProduct.setStockQuantity(storeProduct.getStockQuantity() + orderQuantity);
-                storeProductRepository.save(storeProduct);
+                if (existingStoreProduct.isPresent()) {
+                    StoreProduct storeProduct = existingStoreProduct.get();
+                    storeProduct.setStockQuantity(storeProduct.getStockQuantity() + orderQuantity);
+                    storeProductRepository.save(storeProduct);
+                } else {
+                    StoreProduct newStoreProduct = new StoreProduct();
+                    newStoreProduct.setStore(store);  // Storeエンティティを直接設定
+                    newStoreProduct.setProduct(product);  // Productエンティティを直接設定
+                    newStoreProduct.setSellingPrice(suggestedRetailPrice.doubleValue());
+                    newStoreProduct.setStockQuantity(orderQuantity);
+                    storeProductRepository.save(newStoreProduct);
+                }
+
+                model.addAttribute("orderQuantity", orderQuantity);
+                model.addAttribute("totalPrice", totalPrice);
+                model.addAttribute("message", "注文が正常に処理されました。");
+                return "product/order-confirmation"; // 注文確認ページを表示
+
             } else {
-                StoreProduct newStoreProduct = new StoreProduct();
-                newStoreProduct.setStore(store);  // Storeエンティティを直接設定
-                newStoreProduct.setProduct(product);  // Productエンティティを直接設定
-                newStoreProduct.setSellingPrice(suggestedRetailPrice.doubleValue());
-                newStoreProduct.setStockQuantity(orderQuantity);
-                storeProductRepository.save(newStoreProduct);
+                model.addAttribute("errorMessage", "管理者情報が見つかりませんでした。");
+                return "error/error-page"; // エラーページを指定してください
             }
-
-            model.addAttribute("message", "注文が正常に処理されました。");
-            return "product/order-confirmation";
         } else {
             model.addAttribute("errorMessage", "商品が見つかりませんでした。");
             return "error/error-page"; // エラーページを指定してください
         }
     }
-    
+
 }

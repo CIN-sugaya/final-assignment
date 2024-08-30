@@ -13,6 +13,8 @@ public interface OrderHistoryService {
     OrderHistory getOrderHistoryById(Long id);
     
     List<OrderHistory> findAll();
+    
+    List<OrderHistory> findByStoreId(Integer storeId);
 
     // 他のビジネスロジックに関連するメソッドを定義できます
 }

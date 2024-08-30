@@ -40,5 +40,10 @@ public class OrderHistoryServiceImpl implements OrderHistoryService {
     public List<OrderHistory> findAll() {
         return orderHistoryRepository.findAll();
     }
+    
+    @Override
+    public List<OrderHistory> findByStoreId(Integer storeId) {
+     return orderHistoryRepository.findByStore_Id(storeId);
     // その他のビジネスロジックメソッドを実装することができます
+}
 }

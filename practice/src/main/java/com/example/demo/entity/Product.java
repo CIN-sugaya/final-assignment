@@ -20,7 +20,7 @@ public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "product_id")
-    private Integer productId;
+    private Integer Id;
 
     @ManyToOne
     @JoinColumn(name = "sub_sub_category_id", nullable = false)
@@ -51,6 +51,9 @@ public class Product {
     @Column(name = "updated_at", nullable = false, insertable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP")
     private Timestamp updatedAt;
 
-    // ここにstoreに関するフィールドを持たないようにする
+    // productIdを取得するメソッドを追加
+    public Integer getProductId() {
+        return Id;
+    }
 }
 
