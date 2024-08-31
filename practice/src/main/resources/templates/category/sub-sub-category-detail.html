@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>サブサブカテゴリ詳細</title>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+    <header>
+        <h1>サブサブカテゴリ詳細</h1>
+    </header>
+    <main>
+        <div>
+            <label>サブサブカテゴリ名: </label>
+            <span th:text="${subSubCategory.subSubCategoryName}"></span>
+        </div>
+        <div>
+            <h2>関連商品一覧</h2>
+            <ul>
+                <li th:each="product : ${subSubCategory.products}">
+                    <span th:text="${product.productName}">商品名</span>
+                </li>
+            </ul>
+        </div>
+        <div>
+            <button type="button" onclick="location.href='/category/main-category-list'">戻る</button>
+        </div>
+    </main>
+</body>
+</html>

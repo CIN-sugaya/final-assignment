@@ -31,7 +31,7 @@ public class OrderHistoryServiceImpl implements OrderHistoryService {
     }
 
     @Override
-    public OrderHistory getOrderHistoryById(Long id) {
+    public OrderHistory getOrderHistoryById(Integer id) {  // メソッドシグネチャをインターフェースと一致させる
         Optional<OrderHistory> optionalOrderHistory = orderHistoryRepository.findById(id);
         return optionalOrderHistory.orElse(null);
     }

@@ -21,13 +21,13 @@
             <tr th:each="manufacturer : ${manufacturers}">
                 <td th:text="${manufacturer.manufacturerName}">メーカー名</td>
                 <!-- No.3 詳細ボタン -->
-                <td><button th:onclick="'location.href=\'/manufacturer/detail?id=' + ${manufacturer.id} + '\'">詳細</button></td>
+                <td><button th:onclick="|location.href='/manufacturer/detail?id=' + ${manufacturer.id}|">詳細</button></td>
             </tr>
         </tbody>
     </table>
 
     <!-- No.5 新規登録ボタン -->
-    <button th:if="${isAdmin}" onclick="location.href='/manufacturer/create'">新規登録</button>
+    <button th:if="${isAdmin}" onclick="location.href='/manufacturer/register'">新規登録</button>
 
     <!-- No.6 戻るボタン -->
     <button onclick="location.href='/admin/dashboard'">戻る</button>

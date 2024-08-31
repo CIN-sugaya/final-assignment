@@ -1,7 +1,6 @@
 package com.example.demo.service;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,15 +22,15 @@ public class SubCategoryService {
         return subCategoryRepository.findAll();
     }
 
-    public Optional<SubCategory> getSubCategoryById(Long id) {
-        return subCategoryRepository.findById(id);
+    public SubCategory getSubCategoryById(Integer id) {  // ID型をIntegerに変更
+        return subCategoryRepository.findById(id).orElse(null);
     }
 
     public SubCategory saveSubCategory(SubCategory subCategory) {
         return subCategoryRepository.save(subCategory);
     }
 
-    public void deleteSubCategory(Long id) {
+    public void deleteSubCategory(Integer id) {  // ID型をIntegerに変更
         subCategoryRepository.deleteById(id);
     }
 }

@@ -1,5 +1,8 @@
 package com.example.demo.service;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -69,5 +72,13 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public Page<Product> searchProducts(String productName, Integer mainCategoryId, Integer subCategoryId, Integer subSubCategoryId, Pageable pageable) {  
         return productRepository.findByCriteria(productName, mainCategoryId, subCategoryId, subSubCategoryId, pageable);
+    }
+    
+    @Override
+    public Map<String, List<Product>> getProductsAndCategories() {
+        List<Product> products = productRepository.findAll(); // ここでは、全ての製品を取得します
+        Map<String, List<Product>> response = new HashMap<>();
+        response.put("products", products);
+        return response;
     }
 }

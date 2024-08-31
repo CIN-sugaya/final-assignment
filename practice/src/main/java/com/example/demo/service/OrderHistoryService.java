@@ -10,7 +10,7 @@ public interface OrderHistoryService {
 
     List<OrderHistory> getAllOrderHistories();
 
-    OrderHistory getOrderHistoryById(Long id);
+    OrderHistory getOrderHistoryById(Integer id); 
     
     List<OrderHistory> findAll();
     

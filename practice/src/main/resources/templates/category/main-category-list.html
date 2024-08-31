@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>カテゴリ管理</title>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+    <header>
+        <h1>カテゴリ管理</h1>
+    </header>
+    <main>
+        <table>
+            <thead>
+                <tr>
+                    <th>大カテゴリ名</th>
+                    <th>操作</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="category : ${mainCategories}">
+                    <td th:text="${category.mainCategoryName}"></td>
+                    <td>
+                        <button type="button" 
+                                th:onclick="'location.href=\'/category/main-category-detail?id=' + ${category.id} + '\''">
+                            詳細
+                        </button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <button type="button" onclick="location.href='/admin/dashboard'">戻る</button>
+    </main>
+</body>
+</html>

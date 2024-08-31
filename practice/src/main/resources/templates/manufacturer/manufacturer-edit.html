@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>メーカー編集</title>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+    <header>
+        <h1>メーカー編集</h1>
+    </header>
+    <main>
+        <form th:action="@{/manufacturer/update}" method="post">
+            <input type="hidden" name="id" th:value="${manufacturer.id}" />
+            <div>
+                <label>メーカー名:</label>
+                <input type="text" name="manufacturerName" th:value="${manufacturer.manufacturerName}" required minlength="1" maxlength="255" />
+            </div>
+            <div>
+                <button type="submit">更新</button>
+            </div>
+        </form>
+        <div th:if="${errorMessage}" th:text="${errorMessage}" style="color: red;"></div>
+    </main>
+</body>
+</html>

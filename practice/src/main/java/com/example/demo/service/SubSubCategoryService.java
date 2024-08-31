@@ -1,7 +1,6 @@
 package com.example.demo.service;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,19 +18,23 @@ public class SubSubCategoryService {
         this.subSubCategoryRepository = subSubCategoryRepository;
     }
 
+    // すべての小カテゴリを取得
     public List<SubSubCategory> getAllSubSubCategories() {
         return subSubCategoryRepository.findAll();
     }
 
-    public Optional<SubSubCategory> getSubSubCategoryById(Long id) {
-        return subSubCategoryRepository.findById(id);
+    // IDで小カテゴリを取得
+    public SubSubCategory getSubSubCategoryById(Integer id) {
+        return subSubCategoryRepository.findById(id).orElse(null);  // Optionalを使用して、nullを返す
     }
 
+    // 小カテゴリを保存
     public SubSubCategory saveSubSubCategory(SubSubCategory subSubCategory) {
         return subSubCategoryRepository.save(subSubCategory);
     }
 
-    public void deleteSubSubCategory(Long id) {
+    // 小カテゴリを削除
+    public void deleteSubSubCategory(Integer id) {
         subSubCategoryRepository.deleteById(id);
     }
 }

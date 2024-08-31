@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>メーカー登録</title>
+</head>
+<body>
+    <h1>メーカー編集</h1>
+
+    <!-- エラーメッセージの表示 -->
+    <div th:if="${errorMessage}" style="color: red;">
+        <p th:text="${errorMessage}"></p>
+    </div>
+
+    <!-- メーカー登録フォーム -->
+    <form th:action="@{/manufacturer/register}" method="post">
+        <div>
+            <label for="manufacturerName">メーカー名</label>
+            <input type="text" id="manufacturerName" name="manufacturerName" th:value="${manufacturer.manufacturerName}" required minlength="1" maxlength="255"/>
+        </div>
+
+        <!-- 登録ボタン -->
+        <div>
+            <button type="submit">登録</button>
+            <!-- 戻るボタン -->
+            <button type="button" onclick="location.href='@{/manufacturer/manufacturer-list}'">戻る</button>
+        </div>
+    </form>
+</body>
+</html>

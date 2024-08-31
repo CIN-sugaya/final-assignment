@@ -3,8 +3,10 @@ package com.example.demo.entity;
 import java.sql.Timestamp;
 import java.util.List;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -30,6 +32,7 @@ public class MainCategory {
     @Column(name = "updated_at", nullable = false, insertable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP")
     private Timestamp updatedAt;
 
-    @OneToMany(mappedBy = "mainCategory")
+    @OneToMany(mappedBy = "mainCategory", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<SubCategory> subCategories;
+
 }
