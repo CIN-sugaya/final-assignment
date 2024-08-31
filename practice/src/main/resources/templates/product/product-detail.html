@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>商品詳細</title>
+</head>
+<body>
+    <h1>商品詳細</h1>
+
+    <div>
+        <label>商品名:</label>
+        <span th:text="${product.productName}">商品名</span>
+    </div>
+    <div>
+        <label>大カテゴリ:</label>
+        <span th:text="${product.subSubCategory.subCategory.mainCategory.mainCategoryName}">大カテゴリ名</span>
+    </div>
+    <div>
+        <label>中カテゴリ:</label>
+        <span th:text="${product.subSubCategory.subCategory.subCategoryName}">中カテゴリ名</span>
+    </div>
+    <div>
+        <label>小カテゴリ:</label>
+        <span th:text="${product.subSubCategory.subSubCategoryName}">小カテゴリ名</span>
+    </div>
+    <div>
+        <label>メーカー:</label>
+        <span th:text="${product.manufacturer.manufacturerName}">メーカー名</span>
+    </div>
+    <div>
+        <label>商品の説明:</label>
+        <span th:text="${product.description}">商品の説明</span>
+    </div>
+    <div>
+        <label>在庫数:</label>
+        <span th:text="${stockQuantity}">在庫数</span>
+    </div>
+
+    <!-- 発注画面へ遷移するためのフォーム -->
+    <form th:action="@{/product/order}" method="get">
+        <input type="hidden" name="productId" th:value="${product.productId}" />
+        <div>
+            <button type="submit">発注する</button>
+        </div>
+    </form>
+
+    <div>
+        <button type="button" th:onclick="|location.href='/product/product-list'|">戻る</button>
+    </div>
+</body>
+</html>

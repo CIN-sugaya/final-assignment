@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>メーカー一覧</title>
+</head>
+<body>
+    <!-- No.1 タイトル -->
+    <h1>メーカー一覧</h1>
+
+    <!-- No.2 メーカー名のリストを表示 -->
+    <table border="1">
+        <thead>
+            <tr>
+                <th>メーカー名</th>
+                <th>詳細</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Thymeleafでメーカーリストをループ表示 -->
+            <tr th:each="manufacturer : ${manufacturers}">
+                <td th:text="${manufacturer.manufacturerName}">メーカー名</td>
+                <!-- No.3 詳細ボタン -->
+                <td><button th:onclick="|location.href='/manufacturer/detail?id=' + ${manufacturer.id}|">詳細</button></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <!-- No.5 新規登録ボタン -->
+    <button th:if="${isAdmin}" onclick="location.href='/manufacturer/register'">新規登録</button>
+
+    <!-- No.6 戻るボタン -->
+    <button onclick="location.href='/admin/dashboard'">戻る</button>
+</body>
+</html>

@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>管理者トップ画面</title>
+    <link rel="stylesheet" href="/css/styles.css"> <!-- 必要に応じてCSSファイルを追加 -->
+</head>
+<body>
+    <header>
+        <h1>管理者トップ</h1>
+        <nav>
+            <ul>
+                <li><a href="/admin/admin-list">管理者一覧</a></li>
+                <li><a href="/admin/profile">プロフィール</a></li>
+                <li><a href="/store/store-management">店舗管理</a></li>
+                <li><a href="/product/product-list">商品管理</a></li>
+                <li><a href="/product/order-history-list">発注履歴管理</a></li>
+                <li><a href="/manufacturer/manufacturer-list">メーカー管理</a></li>
+                <li><a href="/category/main-category-list">カテゴリ管理</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+		<form action="/admin/login" method="post">
+		                        <button type="submit">ログアウト</button>
+		                    </form>
+    </main>
+</body>
+</html>

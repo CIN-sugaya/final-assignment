@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>メーカー詳細</title>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+    <header>
+        <h1>メーカー詳細</h1>
+    </header>
+    <main>
+        <div>
+            <label>メーカー名: </label>
+            <span th:text="${manufacturer.manufacturerName}"></span>
+        </div>
+        <div>
+            <!-- 編集ボタン -->
+            <button type="button" 
+                th:if="${isAdmin}" 
+                th:onclick="'location.href=\'/manufacturer/edit?id=' + ${manufacturer.id} + '\''">
+                編集
+            </button>
+
+            <!-- 削除ボタン -->
+            <form th:if="${isAdmin}" th:action="@{/manufacturer/delete}" method="post" style="display:inline;">
+                <input type="hidden" name="id" th:value="${manufacturer.id}" />
+                <button type="submit">削除</button>
+            </form>
+
+            <!-- 戻るボタン -->
+            <button type="button" onclick="location.href='/manufacturer/manufacturer-list'">戻る</button>
+        </div>
+    </main>
+</body>
+</html>

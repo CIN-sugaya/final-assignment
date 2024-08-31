@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Order Confirmation</title>
+</head>
+<body>
+    <h1>注文確認</h1>
+    <p>注文が正常に処理されました。</p>
+
+    <!-- 注文詳細を表示するための例 -->
+    <div th:if="${product != null}">
+        <h2>商品情報</h2>
+        <p>商品名: <span th:text="${product.productName}"></span></p>
+        <p>価格: <span th:text="${product.suggestedRetailPrice}"></span></p>
+    </div>
+
+    <div>
+        <h2>注文情報</h2>
+        <p>数量: <span th:text="${orderQuantity}"></span></p>
+        <p>合計金額: <span th:text="${totalPrice}"></span></p>
+    </div>
+
+    <a th:href="@{/product/product-list}">商品リストに戻る</a>
+</body>
+</html>

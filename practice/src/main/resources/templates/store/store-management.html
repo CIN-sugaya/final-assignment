@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>店舗管理</title>
+</head>
+<body>
+    <header>
+        <h1>店舗管理画面</h1>
+    </header>
+    <main>
+        <div>
+            <label>店舗名: </label>
+            <span th:text="${store.storeName}"></span>
+        </div>
+        <div>
+            <label>住所: </label>
+            <span th:text="${store.address}"></span>
+        </div>
+        <div>
+            <button type="button" th:onclick="'location.href=\'/store/store-edit\''">編集</button>
+            <button type="button" th:onclick="'location.href=\'/admin/dashboard\''">戻る</button>
+        </div>
+    </main>
+</body>
+</html>

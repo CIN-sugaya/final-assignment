@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>商品一覧</title>
+    <style>
+        /* 全体のスタイル */
+        body {
+            font-family: Arial, sans-serif;
+        }
+        h1 {
+            font-size: 24px;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .form-group {
+            margin-bottom: 10px;
+        }
+        .form-group label {
+            margin-right: 10px;
+        }
+        .form-group select, .form-group input[type="text"] {
+            width: 200px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        table, th, td {
+            border: 1px solid black;
+        }
+        th, td {
+            padding: 8px;
+            text-align: left;
+        }
+        .pagination {
+            text-align: center;
+            margin-top: 20px;
+        }
+        .pagination a {
+            margin: 0 5px;
+            text-decoration: none;
+        }
+        .pagination .current {
+            font-weight: bold;
+            text-decoration: underline;
+        }
+        .back-button {
+            margin-top: 20px;
+            text-align: center;
+        }
+        .back-button a {
+            text-decoration: none;
+            padding: 10px 20px;
+            background-color: #ccc;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <h1>商品一覧</h1>
+
+    <form th:action="@{/product/product-list}" method="get">
+        <div class="form-group">
+            <label>商品名:</label>
+            <input type="text" name="productName" th:value="${productName}" />
+        </div>
+        <div class="form-group">
+            <label>大カテゴリ:</label>
+            <select name="mainCategoryId">
+                <option value="">-- 全て --</option>
+                <option th:each="category : ${mainCategories}" th:value="${category.id}" th:text="${category.mainCategoryName}" th:selected="${mainCategoryId == category.id}"></option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label>中カテゴリ:</label>
+            <select name="subCategoryId">
+                <option value="">-- 全て --</option>
+                <option th:each="category : ${subCategories}" th:value="${category.id}" th:text="${category.subCategoryName}" th:selected="${subCategoryId == category.id}"></option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label>小カテゴリ:</label>
+            <select name="subSubCategoryId">
+                <option value="">-- 全て --</option>
+                <option th:each="category : ${subSubCategories}" th:value="${category.id}" th:text="${category.subSubCategoryName}" th:selected="${subSubCategoryId == category.id}"></option>
+            </select>
+        </div>
+        <div class="form-group">
+            <button type="submit">検索</button>
+        </div>
+    </form>
+
+    <table>
+        <thead>
+            <tr>
+                <th>商品名</th>
+                <th>商品カテゴリ</th>
+                <th>メーカー</th>
+                <th>詳細</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="product : ${products.content}"> <!-- Pageのcontentを展開 -->
+                <td th:text="${product.productName}">商品名</td>
+                <td th:text="${product.subSubCategory.subSubCategoryName}">カテゴリ</td>
+                <td th:text="${product.manufacturer.manufacturerName}">メーカー</td>
+                <td><a th:href="@{/product/detail(productId=${product.productId})}">詳細</a></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="pagination">
+        <span th:each="pageNum : ${#numbers.sequence(0, products.totalPages - 1)}">
+            <a th:href="@{/product/product-list(page=${pageNum}, productName=${productName}, mainCategoryId=${mainCategoryId}, subCategoryId=${subCategoryId}, subSubCategoryId=${subSubCategoryId})}" 
+               th:text="${pageNum + 1}" 
+               th:classappend="${pageNum == products.number} ? 'current' : ''"></a>
+        </span>
+    </div>
+
+    <div class="back-button">
+        <a th:href="@{/admin/dashboard}">戻る</a>
+    </div>
+</body>
+</html>

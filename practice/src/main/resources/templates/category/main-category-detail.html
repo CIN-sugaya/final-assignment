@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>大カテゴリ詳細</title>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+    <header>
+        <h1>大カテゴリ詳細</h1>
+    </header>
+    <main>
+        <div>
+            <label>大カテゴリ名: </label>
+            <span th:text="${mainCategory.mainCategoryName}"></span>
+        </div>
+        <div>
+            <h2>中カテゴリ一覧</h2>
+            <ul>
+                <li th:each="subCategory : ${mainCategory.subCategories}">
+                    <span th:text="${subCategory.subCategoryName}"></span>
+                    <button type="button" 
+                        th:onclick="'location.href=\'/category/sub-category-detail?id=' + ${subCategory.id} + '\''">
+                        詳細
+                    </button>
+                </li>
+            </ul>
+        </div>
+        <div>
+            <button type="button" onclick="location.href='/category/main-category-list'">戻る</button>
+        </div>
+    </main>
+</body>
+</html>
